@@ -49,7 +49,7 @@ public:
 		void*,
 		int,
 		MPI_Datatype
-	> get_mpi_datatype() const
+	> get_mpi_datatype(UNUSED_GMD_ARGS) const
 	{
 		if (Cell::transfer_all) {
 			std::array<int, 2> counts = {{1, int(this->data.size())}};
@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
 		abort();
 	}
 
-
+{
 	dccrg::Dccrg<Cell, dccrg::Cartesian_Geometry> grid;
 
 
@@ -322,7 +322,7 @@ int main(int argc, char* argv[])
 
 		grid.finish_loading_grid_data();
 	}
-
+}
 	MPI_Finalize();
 
 	return EXIT_SUCCESS;

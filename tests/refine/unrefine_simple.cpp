@@ -18,7 +18,7 @@ using namespace std;
 using namespace dccrg;
 
 struct Cell {
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype()
+	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype(UNUSED_GMD_ARGS)
 	{
 		return std::make_tuple(this, 0, MPI_BYTE);
 	}
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 	    cout << "Zoltan_Initialize failed" << endl;
 	    exit(EXIT_FAILURE);
 	}
-
+{
 	Dccrg<Cell, Stretched_Cartesian_Geometry> grid;
 
 	#define GRID_SIZE 2
@@ -145,13 +145,13 @@ int main(int argc, char* argv[])
 			grid.unrefine_completely_at(adapt_coord);
 		}
 
-		auto new_cells = grid.stop_refining();
+		//auto new_cells = grid.stop_refining();
 	}
 
 	if (rank == 0) {
 		visit_file.close();
 	}
-
+}
 	MPI_Finalize();
 
 	return EXIT_SUCCESS;
