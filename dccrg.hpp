@@ -3043,6 +3043,7 @@ public:
 	{
 		const uint64_t cell = this->get_existing_cell(coordinate);
 		if (cell == error_cell) {
+			std::cerr<<"refine_completely_at: cell equal to error_cell"<<std::endl;
 			return false;
 		}
 
@@ -3750,9 +3751,11 @@ public:
 		}
 
 		if (!this->unrefined_cell_data.empty()) {
+#ifndef DCCRG_NO_STOP_REFINING_ERR
 			std::cerr << __FILE__ << ":" << __LINE__
 				<< " stop_refining() called with unrefined cells. "
 				<< std::endl;
+#endif
 		}
 		this->finish_refining();
 		return ret_val;
@@ -6239,7 +6242,7 @@ public:
 	Returns cell weights that have been set.
 	*/
 	const std::unordered_map<uint64_t, double>& get_cell_weights() const
-	{
+{std::cerr<<"get_cell_weights"<<std::endl;
 		return this->cell_weights;
 	}
 
@@ -6578,7 +6581,7 @@ public:
 	Returns the storage of mostly local cell ids and their data.
 	*/
 	const std::unordered_map<uint64_t, Cell_Data>& get_cell_data() const
-	{
+{std::cerr<<"get_cell_data"<<std::endl;
 		return this->cell_data;
 	}
 
@@ -6609,7 +6612,7 @@ public:
 		int,
 		std::vector<Types<3>::neighborhood_item_t>
 	>& get_user_hood_of() const
-	{
+	{std::cerr<<"get_user_hood_of"<<std::endl;
 		return this->user_hood_of;
 	}
 
@@ -6620,7 +6623,7 @@ public:
 		int,
 		std::vector<Types<3>::neighborhood_item_t>
 	>& get_user_hood_to() const
-	{
+	{std::cerr<<"get_user_hood_of"<<std::endl;
 		return this->user_hood_to;
 	}
 
@@ -6636,7 +6639,7 @@ public:
 			>
 		>
 	>& get_all_neighbors_to() const
-	{
+	{std::cerr<<"get_all_neighbors_to"<<std::endl;
 		return this->neighbors_to;
 	}
 
@@ -6655,7 +6658,7 @@ public:
 			>
 		>
 	>& get_all_user_neigh_of() const
-	{
+	{std::cerr<<"get_all_neighbors_of"<<std::endl;
 		return this->user_neigh_of;
 	}
 
@@ -6674,7 +6677,7 @@ public:
 			>
 		>
 	>& get_all_user_neigh_to() const
-	{
+	{std::cerr<<24<<std::endl;
 		return this->user_neigh_to;
 	}
 
@@ -6682,7 +6685,7 @@ public:
 	Returns the each cell's (1st value) process (2nd value).
 	*/
 	const std::unordered_map<uint64_t, int>& get_cell_process() const
-	{
+{std::cerr<<"get_cell_process"<<std::endl;
 		return this->cell_process;
 	}
 
@@ -6709,7 +6712,7 @@ public:
 		int,
 		std::unordered_set<uint64_t>
 	>& get_user_local_cells_on_process_boundary() const
-	{
+	{std::cerr<<25<<std::endl;
 		return this->user_local_cells_on_process_boundary;
 	}
 
@@ -6720,7 +6723,7 @@ public:
 		int,
 		std::unordered_set<uint64_t>
 	>& get_user_remote_cells_on_process_boundary() const
-	{
+	{std::cerr<<26<<std::endl;
 		return this->user_remote_cells_on_process_boundary;
 	}
 
@@ -6734,7 +6737,7 @@ public:
 		int,
 		std::vector<std::pair<uint64_t, int>>
 	>& get_cells_to_send() const
-	{
+	{std::cerr<<26<<std::endl;
 		return this->cells_to_send;
 	}
 
@@ -6748,7 +6751,7 @@ public:
 		int,
 		std::vector<std::pair<uint64_t, int>>
 	>& get_cells_to_receive() const
-	{
+	{std::cerr<<26<<std::endl;
 		return this->cells_to_receive;
 	}
 
@@ -6759,7 +6762,7 @@ public:
 		int,
 		std::unordered_map<int, std::vector<std::pair<uint64_t, int>>>
 	>& get_user_neigh_cells_to_send() const
-	{
+	{std::cerr<<27<<std::endl;
 		return this->user_neigh_cells_to_send;
 	}
 
@@ -6770,7 +6773,7 @@ public:
 		int,
 		std::unordered_map<int, std::vector<std::pair<uint64_t, int>>>
 	>& get_user_neigh_cells_to_receive() const
-	{
+	{std::cerr<<27<<std::endl;
 		return this->user_neigh_cells_to_receive;
 	}
 
@@ -6778,7 +6781,7 @@ public:
 	Returns pin requests currently in force.
 	*/
 	const std::unordered_map<uint64_t, int>& get_pin_requests() const
-	{
+{std::cerr<<"get_pin_requests"<<std::endl;
 		return this->pin_requests;
 	}
 
@@ -6788,7 +6791,7 @@ public:
 	These have not been told to other processes yet.
 	*/
 	const std::unordered_map<uint64_t, int>& get_new_pin_requests() const
-	{
+{std::cerr<<"get_new_pin_requests"<<std::endl;
 		return this->new_pin_requests;
 	}
 
@@ -6816,7 +6819,7 @@ public:
 	const std::vector<
 		std::unordered_map<std::string, std::string>
 	> get_partitioning_options() const
-	{
+	{std::cerr<<27<<std::endl;
 		return this->partitioning_options;
 	}
 
