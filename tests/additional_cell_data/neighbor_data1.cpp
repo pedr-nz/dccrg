@@ -31,7 +31,7 @@ using namespace std;
 using namespace dccrg;
 
 struct Cell {
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype()
+	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype(UNUSED_GMD_ARGS)
 	{
 		return std::make_tuple((void*) this, 0, MPI_BYTE);
 	}
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 		cerr << "Zoltan_Initialize failed" << endl;
 		abort();
 	}
-
+{
 	// initialize grid
 	Dccrg<
 		Cell,
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
+}
 	MPI_Finalize();
 
 	return EXIT_SUCCESS;
