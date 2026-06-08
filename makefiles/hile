@@ -8,6 +8,7 @@ RUN =
 MPIRUN = #mpiexec -n 3
 
 CPPFLAGS = -I . -Wno-sign-compare -fsanitize=address
+CPPFLAGS += -DDCCRG_NO_STOP_REFINING_ERR -DDCCRG_SURPRESS_UNUSED_VAR
 
 BOOST_CPPFLAGS = -I $(HOME)/include
 BOOST_LDFLAGS = -L $(HOME)/lib

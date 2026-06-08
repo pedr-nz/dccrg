@@ -4900,6 +4900,9 @@ public:
 				}
 
 				const int neighbor_ref_lvl = this->mapping.get_refinement_level(neighCell);
+#ifdef DCCRG_SURPRESS_UNUSED_VAR
+				(void)neighbor_ref_lvl; //Suppress unused var
+#endif
 
 				return_neighbors.push_back({neighCell, {offsets[0], offsets[1], offsets[2]} });
 			}
