@@ -50,4 +50,4 @@ tests/get_cell_datatype/run_time.exe: \
 
 tests/get_cell_datatype/run_time.tst: \
   tests/get_cell_datatype/run_time.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS\n" && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
