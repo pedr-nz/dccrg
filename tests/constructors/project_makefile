@@ -46,9 +46,9 @@ tests/constructors/simple.exe: \
 tests/constructors/copy.exe: \
   tests/constructors/copy.cpp \
   $(TESTS_CONSTRUCTORS_COMMON_DEPS)
-	$(TESTS_CONSTRUCTORS_COMPILE_COMMAND)
+	$(TESTS_CONSTRUCTORS_COMPILE_COMMAND) -DCOPY_TEST
 
 tests/constructors/copy.tst: \
   tests/constructors/copy.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS\n" && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
 
