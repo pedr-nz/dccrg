@@ -89,9 +89,10 @@ namespace dccrg
 #if __cplusplus >= 202002L
 		std::erase_if(v, pred);
 #else
-		for(const auto& k:v)
-			if(pred(k))
-				v.erase(k);
+		auto it = v.begin(), end = v.end();
+		while(it != end)
+			if(pred(*it)) it = v.erase(it);
+			else ++it;
 #endif
 		return;
 	}
