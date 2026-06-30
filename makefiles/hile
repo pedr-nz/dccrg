@@ -2,7 +2,7 @@
 # into your home directory according to the instructions at
 # https://github.com/fmihpc/dccrg/wiki/Install
 CXX = g++
-MPICXX = cc
+MPICXX = CC
 
 RUN =
 MPIRUN = #mpiexec -n 3
