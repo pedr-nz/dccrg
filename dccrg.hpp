@@ -89,9 +89,10 @@ namespace dccrg
 #if __cplusplus >= 202002L
 		std::erase_if(v, pred);
 #else
-		for(const auto& k:v)
-			if(pred(k))
-				v.erase(k);
+		auto it = v.begin(), end = v.end();
+		while(it != end)
+			if(pred(*it)) it = v.erase(it);
+			else ++it;
 #endif
 		return;
 	}
@@ -4899,10 +4900,8 @@ public:
 					continue;
 				}
 
-				const int neighbor_ref_lvl = this->mapping.get_refinement_level(neighCell);
-#ifdef DCCRG_SURPRESS_UNUSED_VAR
-				(void)neighbor_ref_lvl; //Suppress unused var
-#endif
+				//Suppress unused var
+				/*const int neighbor_ref_lvl = */this->mapping.get_refinement_level(neighCell);
 
 				return_neighbors.push_back({neighCell, {offsets[0], offsets[1], offsets[2]} });
 			}
