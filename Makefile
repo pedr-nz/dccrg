@@ -5,7 +5,7 @@ ENVIRONMENT_MAKEFILE = makefiles/homedir
 #
 # The lines below are not intended to be modified by users
 #
-CXXFLAGS = -std=c++11 -W -Wall -Wextra -pedantic -O3
+CXXFLAGS = -std=c++20 -W -Wall -Wextra -pedantic -O3
 include $(ENVIRONMENT_MAKEFILE)
 
 # filled by project makefiles
