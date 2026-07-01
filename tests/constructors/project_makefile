@@ -50,5 +50,5 @@ tests/constructors/copy.exe: \
 
 tests/constructors/copy.tst: \
   tests/constructors/copy.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 

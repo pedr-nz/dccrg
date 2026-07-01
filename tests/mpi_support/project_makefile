@@ -42,11 +42,11 @@ tests/mpi_support/all_gather.exe: \
 
 tests/mpi_support/all_gather.tst1: \
   tests/mpi_support/all_gather.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/mpi_support/all_gather.tstN: \
   tests/mpi_support/all_gather.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 
 tests/mpi_support/some_reduce.exe: \
@@ -56,9 +56,9 @@ tests/mpi_support/some_reduce.exe: \
 
 tests/mpi_support/some_reduce.tst1: \
   tests/mpi_support/some_reduce.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/mpi_support/some_reduce.tstN: \
   tests/mpi_support/some_reduce.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 

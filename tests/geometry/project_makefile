@@ -43,7 +43,7 @@ tests/geometry/cartesian_grid_speed.exe: \
 
 tests/geometry/cartesian_grid_speed.tst: \
   tests/geometry/cartesian_grid_speed.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 
 tests/geometry/stretched_cartesian_grid_speed.exe: \
@@ -53,5 +53,5 @@ tests/geometry/stretched_cartesian_grid_speed.exe: \
 
 tests/geometry/stretched_cartesian_grid_speed.tst: \
   tests/geometry/stretched_cartesian_grid_speed.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 

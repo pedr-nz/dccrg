@@ -59,11 +59,11 @@ tests/advection/2d_mpi.exe: \
 
 tests/advection/2d_mpi.tst: \
   tests/advection/2d_mpi.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS\n" && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/advection/2d_mpi.mtst: \
   tests/advection/2d_mpi.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS\n" && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 
 tests/advection/2d_mpi_debug.exe: \
@@ -73,7 +73,7 @@ tests/advection/2d_mpi_debug.exe: \
 
 tests/advection/2d_mpi_debug.tst: \
   tests/advection/2d_mpi_debug.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS\n" && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 
 tests/advection/dc2vtk.exe: \

@@ -43,7 +43,7 @@ TESTS_ITERATORS_COMPILE_COMMAND = \
   $(BOOST_LIBS) \
   $(ZOLTAN_CPPFLAGS) \
   $(ZOLTAN_LDFLAGS) \
-  $(ZOLTAN_LIBS)
+  $(ZOLTAN_LIBS) -ggdb
 
 tests/iterators/test1.exe: \
   tests/iterators/test1.cpp \
@@ -52,11 +52,11 @@ tests/iterators/test1.exe: \
 
 tests/iterators/test1.tst: \
   tests/iterators/test1.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test1.mtst: \
   tests/iterators/test1.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test2.exe: \
   tests/iterators/test2.cpp \
@@ -65,11 +65,11 @@ tests/iterators/test2.exe: \
 
 tests/iterators/test2.tst: \
   tests/iterators/test2.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test2.mtst: \
   tests/iterators/test2.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test3.exe: \
   tests/iterators/test3.cpp \
@@ -78,11 +78,11 @@ tests/iterators/test3.exe: \
 
 tests/iterators/test3.tst: \
   tests/iterators/test3.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test3.mtst: \
   tests/iterators/test3.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test4.exe: \
   tests/iterators/test4.cpp \
@@ -91,8 +91,8 @@ tests/iterators/test4.exe: \
 
 tests/iterators/test4.tst: \
   tests/iterators/test4.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/iterators/test4.mtst: \
   tests/iterators/test4.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@

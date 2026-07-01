@@ -46,11 +46,11 @@ tests/load_balancing/load_balancing_test.exe: \
 
 tests/load_balancing/load_balancing_test.tst: \
   tests/load_balancing/load_balancing_test.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/load_balancing/load_balancing_test.mtst: \
   tests/load_balancing/load_balancing_test.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/load_balancing/multi_stage_load_balancing.exe: \
   tests/load_balancing/multi_stage_load_balancing.cpp \
@@ -59,8 +59,8 @@ tests/load_balancing/multi_stage_load_balancing.exe: \
 
 tests/load_balancing/multi_stage_load_balancing.tst: \
   tests/load_balancing/multi_stage_load_balancing.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/load_balancing/multi_stage_load_balancing.mtst: \
   tests/load_balancing/multi_stage_load_balancing.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@

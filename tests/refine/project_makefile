@@ -53,11 +53,11 @@ tests/refine/refine_simple.exe: \
 
 tests/refine/refine_simple.tst: \
   tests/refine/refine_simple.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/refine/refine_simple.mtst: \
   tests/refine/refine_simple.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 
 tests/refine/dont_refine.exe: \
@@ -67,11 +67,11 @@ tests/refine/dont_refine.exe: \
 
 tests/refine/dont_refine.tst: \
   tests/refine/dont_refine.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/refine/dont_refine.mtst: \
   tests/refine/dont_refine.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 
 tests/refine/unrefine_simple.exe: \
@@ -81,8 +81,8 @@ tests/refine/unrefine_simple.exe: \
 
 tests/refine/unrefine_simple.tst: \
   tests/refine/unrefine_simple.exe
-	@printf RUN\ $<...\ \  && $(RUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf RUN\ $<...\ \  && $(RUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
 tests/refine/unrefine_simple.mtst: \
   tests/refine/unrefine_simple.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@

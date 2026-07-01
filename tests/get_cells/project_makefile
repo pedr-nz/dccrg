@@ -44,5 +44,5 @@ tests/get_cells/test1.exe: \
 
 tests/get_cells/test1.tstN: \
   tests/get_cells/test1.exe
-	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< && printf "PASS " && echo $@ && touch $@
+	@printf MPIRUN\ $<...\ \  && $(MPIRUN) ./$< >$@ && printf "PASS " && echo $@ && touch $@
 
