@@ -87,7 +87,7 @@ struct wrapper {
 	T value;
 	/*
 	std::tuple<void*, int, MPI_Datatype>
-	get_mpi_datatype(UNUSED_GCMD_ARGS) {
+	get_mpi_datatype(UNUSED_GMD_ARGS) {
 		return std::make_tuple((void*)this, 1, MPI_##type);
 	}
 	*/
