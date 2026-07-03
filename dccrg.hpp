@@ -82,10 +82,12 @@ Namespace where all dccrg classes, functions, etc are defined.
 namespace dccrg
 {
 
-	/* Custom implementation of erase_if for C++17 */
+	/* Custom implementation of erase_if for C++17,
+	 * TODO: Support full range of of unordered_set,
+	 *       Return same data as C++20 erase_if     */
 	template<typename T, typename F>
 	static inline
-	void erase_if(std::unordered_set<T> v, F pred) {
+	void erase_if(std::unordered_set<T>& v, F pred) {
 #if __cplusplus >= 202002L
 		std::erase_if(v, pred);
 #else
