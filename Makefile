@@ -1,6 +1,9 @@
+#set default architecture, can be overridden from the compile line
+ARCH = ${DCCRG_ARCH}
+
 # to compile and test pick one makefile from makefiles directory,
 # or write a new one for your environment, and put it here:
-ENVIRONMENT_MAKEFILE = makefiles/homedir
+ENVIRONMENT_MAKEFILE = makefiles/$(ARCH)
 
 #
 # The lines below are not intended to be modified by users

@@ -6,7 +6,8 @@ CXX = g++
 MPICXX = mpicxx
 
 RUN =
-MPIRUN = srun --mpi=pmix_v3
+MPIRUN = mpirun -n 2
+#MPIRUN = mpirun -mca pml ucx --mca btl ^uct,ofi --mca mtl ^ofi -x UCX_NET_DEVICES=mlx5_0:1 -x UCX_TLS=rc,sm
 
 CPPFLAGS = -I . -Wno-sign-compare -fsanitize=address
 #CPPFLAGS += -DDCCRG_NO_STOP_REFINING_ERR

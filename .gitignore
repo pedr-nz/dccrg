@@ -1,3 +1,6 @@
 *.exe
-*tst
+*tst*
 *.out
+*.vtk
+*.dc
+*.visit
