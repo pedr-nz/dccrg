@@ -31,7 +31,7 @@ using namespace dccrg;
 int main(int argc, char* argv[])
 {
 	MPI_Init(&argc, &argv);
-
+	{
 	int rank, size;
 	MPI_Comm world = MPI_COMM_WORLD;
 	MPI_Comm_rank(world, &rank);
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 
 	cout.flush();
 	MPI_Barrier(world);
-
+	}
 	MPI_Finalize();
 
 	return 0;
