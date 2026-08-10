@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -t 12:45:00        # Run time (hh:mm:ss)
+#SBATCH -t 22:45:00        # Run time (hh:mm:ss)
 #SBATCH --constraint="amd"
 #SBATCH --nodes=1
 #SBATCH -c 4                 # CPU cores per task
