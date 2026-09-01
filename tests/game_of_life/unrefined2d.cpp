@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 		cerr << "Zoltan_Initialize failed" << endl;
 		exit(EXIT_FAILURE);
 	}
-
+{
 	// initialize grids, reference grid doesn't refine/unrefine
 	Dccrg<Cell, Stretched_Cartesian_Geometry> grid, reference_grid;
 
@@ -249,7 +249,7 @@ int main(int argc, char* argv[])
 			cout << endl;
 		}
 	}
-
+}
 	MPI_Finalize();
 
 	return EXIT_SUCCESS;

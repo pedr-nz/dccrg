@@ -82,6 +82,23 @@ Namespace where all dccrg classes, functions, etc are defined.
 namespace dccrg
 {
 
+	/* Custom implementation of erase_if for C++17,
+	 * TODO: Support full range of of unordered_set,
+	 *       Return same data as C++20 erase_if     */
+	template<typename T, typename F>
+	static inline
+	void erase_if(std::unordered_set<T>& v, F pred) {
+#if __cplusplus >= 202002L
+		std::erase_if(v, pred);
+#else
+		auto it = v.begin(), end = v.end();
+		while(it != end)
+			if(pred(*it)) it = v.erase(it);
+			else ++it;
+#endif
+		return;
+	}
+
 static const int
 	/*! @var
 	*/
@@ -313,7 +330,101 @@ public:
 
 
 	// Copy constructor is deleted, since copying the entire grid is typically a mistake
+#ifdef COPY_TEST
+	/*!
+	Creates an instance of the grid based on another instance of the grid.
+
+	Call this with all processes unless you really know what you are doing.
+	Must not be used while the instance being copied is updating remote
+	neighbor data or balancing the load.
+	The Cell_Data class can differ between the two grids.
+	The geometry of this grid must be compatible with the other
+	grid's geometry (it must have a copy contructor taking the
+	other grid's geometry as an argument).
+
+	The following data is not included in the new dccrg instance:
+		- Other_Cell_Data, in other words the other grid's cell data
+		- refined/unrefined cells
+		- everything related to load balancing or remote neighbor updates
+
+	A dccrg instance created this way is already initialized.
+	*/
+	template<
+		class Other_Cell_Data,
+		class Other_Geometry
+	> Dccrg(const Dccrg<Other_Cell_Data, Other_Geometry>& other) :
+		topology_rw(other.topology),
+		mapping_rw(other.mapping),
+		geometry_rw(length, mapping, topology),
+		mapping_initialized(other.get_mapping_initialized()),
+		grid_initialized(other.get_initialized()),
+		neighborhood_length(other.get_neighborhood_length()),
+		max_tag(other.get_max_tag()),
+		send_single_cells(other.get_send_single_cells()),
+		comm(other.get_communicator()),
+		rank(uint64_t(other.get_rank())),
+		comm_size(uint64_t(other.get_comm_size())),
+		neighborhood_of(other.get_neighborhood_of()),
+		neighborhood_to(other.get_neighborhood_to()),
+		user_hood_of(other.get_user_hood_of()),
+		user_hood_to(other.get_user_hood_to()),
+		neighbors_to(other.get_all_neighbors_to()),
+		user_neigh_of(other.get_all_user_neigh_of()),
+		user_neigh_to(other.get_all_user_neigh_to()),
+		cell_process(other.get_cell_process()),
+		local_cells_on_process_boundary(other.get_local_cells_on_process_boundary_internal()),
+		remote_cells_on_process_boundary(other.get_remote_cells_on_process_boundary_internal()),
+		user_local_cells_on_process_boundary(other.get_user_local_cells_on_process_boundary()),
+		user_remote_cells_on_process_boundary(other.get_user_remote_cells_on_process_boundary()),
+		cells_to_send(other.get_cells_to_send()),
+		cells_to_receive(other.get_cells_to_receive()),
+		user_neigh_cells_to_send(other.get_user_neigh_cells_to_send()),
+		user_neigh_cells_to_receive(other.get_user_neigh_cells_to_receive()),
+		pin_requests(other.get_pin_requests()),
+		new_pin_requests(other.get_new_pin_requests()),
+		processes_per_part(other.get_processes_per_part()),
+		partitioning_options(other.get_partitioning_options()),
+		no_load_balancing(other.get_no_load_balancing()),
+		reserved_options(other.get_reserved_options()),
+		cell_weights(other.get_cell_weights()),
+		neighbor_processes(other.get_neighbor_processes()),
+		balancing_load(other.get_balancing_load())
+	{
+		if (other.get_balancing_load()) {
+			std::cerr << __FILE__ << ":" << __LINE__
+				<< " Copy constructor called while the instance being copied is balancing load"
+				<< std::endl;
+			abort();
+		}
+
+		if (!this->geometry_rw.set(other.geometry)) {
+			std::cerr << __FILE__ << ":" << __LINE__
+				<< " Couldn't set geometry while copy constructing"
+				<< std::endl;
+			abort();
+		}
+
+		if (!this->mapping_rw.set_maximum_refinement_level(other.mapping.get_maximum_refinement_level())) {
+			std::cerr << __FILE__ << ":" << __LINE__
+				<< " Couldn't set maximum refinement level when copy constructing"
+				<< std::endl;
+			abort();
+		}
+
+		this->zoltan = Zoltan_Copy(other.get_zoltan());
+
+		// default construct Other_Cell_Data of local cells
+		for (typename std::unordered_map<uint64_t, Other_Cell_Data>::const_iterator
+			cell_item = other.get_cell_data().begin();
+			cell_item != other.get_cell_data().end();
+			cell_item++
+		) {
+			this->cell_data[cell_item->first];
+		}
+	}
+#else
 	template< class Other_Cell_Data, class Other_Geometry > Dccrg(const Dccrg<Other_Cell_Data, Other_Geometry>& other) = delete;
+#endif
 
 	/*!
 	Initializes the instance of the grid with given parameters.
@@ -4791,7 +4902,8 @@ public:
 					continue;
 				}
 
-				const int neighbor_ref_lvl = this->mapping.get_refinement_level(neighCell);
+				//Suppress unused var
+				/*const int neighbor_ref_lvl = */this->mapping.get_refinement_level(neighCell);
 
 				return_neighbors.push_back({neighCell, {offsets[0], offsets[1], offsets[2]} });
 			}
@@ -9023,7 +9135,7 @@ private:
 			unique_induced_refines.clear();
 		}
 
-		std::erase_if(cells_to_refine, [this](uint64_t cell){return !this->is_local(cell);});
+		dccrg::erase_if(cells_to_refine, [this](uint64_t cell){return !this->is_local(cell);});
 
 		// add refines from all processes to cells_to_refine
 		std::vector<uint64_t> refines(this->cells_to_refine.begin(), this->cells_to_refine.end());
@@ -9355,7 +9467,7 @@ private:
 			this->all_to_all_set(new_donts);
 		} while (new_donts.size() > 0);
 
-		std::erase_if(old_donts, [this](uint64_t cell){return !this->is_local(cell);});;
+		dccrg::erase_if(old_donts, [this](uint64_t cell){return !this->is_local(cell);});;
 
 		this->cells_not_to_refine = old_donts;
 		this->all_to_all_set(this->cells_not_to_refine);

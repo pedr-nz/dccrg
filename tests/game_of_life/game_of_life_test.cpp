@@ -291,7 +291,7 @@ int main(int argc, char* argv[])
 	if (verbose && rank == 0) {
 		cout << "Using Zoltan version " << zoltan_version << endl;
 	}
-
+{
 	// initialize grid
 	Dccrg<Cell, Stretched_Cartesian_Geometry> grid;
 
@@ -417,7 +417,7 @@ int main(int argc, char* argv[])
 	if (rank == 0 and save_results) {
 		visit_file.close();
 	}
-
+} // ensure destructor called before MPI_Finalize
 	MPI_Finalize();
 
 	return EXIT_SUCCESS;

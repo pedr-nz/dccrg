@@ -43,6 +43,8 @@ TESTS_RESTART_COMPILE_COMMAND = \
   $(BOOST_LIBS) \
   $(ZOLTAN_CPPFLAGS) \
   $(ZOLTAN_LDFLAGS) \
+  -Wno-deprecated-declarations \
+  -Wno-deprecated-declarations \
   $(ZOLTAN_LIBS)
 
 

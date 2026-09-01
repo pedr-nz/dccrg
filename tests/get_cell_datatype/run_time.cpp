@@ -23,20 +23,6 @@ along with dccrg. If not, see <http://www.gnu.org/licenses/>.
 
 #include "dccrg_get_cell_datatype.hpp"
 
-struct Cell1 {
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype()
-	{
-		return std::make_tuple((void*) NULL, 1, MPI_DATATYPE_NULL);
-	}
-};
-
-struct Cell2 {
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype() const
-	{
-		return std::make_tuple((void*) NULL, 2, MPI_DATATYPE_NULL);
-	}
-};
-
 struct Cell3 {
 	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype(
 		const uint64_t /*cell_id*/,
@@ -95,12 +81,7 @@ struct Cell6 {
 		return std::make_tuple((void*) NULL, 7, MPI_DATATYPE_NULL);
 	}
 
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype() const
-	{
-		return std::make_tuple((void*) NULL, 8, MPI_DATATYPE_NULL);
-	}
-
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype()
+	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype(UNUSED_GMD_ARGS)
 	{
 		return std::make_tuple((void*) NULL, 9, MPI_DATATYPE_NULL);
 	}
@@ -117,14 +98,9 @@ struct Cell7 {
 		return std::make_tuple((void*) NULL, 10, MPI_DATATYPE_NULL);
 	}
 
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype() const
+	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype(UNUSED_GMD_ARGS) const
 	{
 		return std::make_tuple((void*) NULL, 11, MPI_DATATYPE_NULL);
-	}
-
-	std::tuple<void*, int, MPI_Datatype> get_mpi_datatype()
-	{
-		return std::make_tuple((void*) NULL, 12, MPI_DATATYPE_NULL);
 	}
 };
 
@@ -151,12 +127,6 @@ int main(int /*argc*/, char** /*argv*/)
 	void* address = NULL;
 	int count = -1;
 	MPI_Datatype datatype = MPI_DATATYPE_NULL;
-
-	Cell1 c1;
-	CHECK_DATATYPE_COUNT(c1, 1)
-
-	const Cell2 c2;
-	CHECK_DATATYPE_COUNT(c2, 2)
 
 	Cell3 c3;
 	CHECK_DATATYPE_COUNT(c3, 3)
