@@ -9967,9 +9967,14 @@ private:
 		int ret_val = -1;
 
 		// Collate all requests into one list, and wait for all in one go.
+#pragma omp single
+{
 		std::vector<MPI_Request> allRequests;
 		for( const auto& process : this->receive_requests) {
-			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
+			//allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
+			if(this==nullptr) std::abort();
+			for (const auto & i:process.second)
+				allRequests.push_back(i);
 		}
 		std::vector<MPI_Status> statuses;
 		statuses.resize(allRequests.size());
@@ -9987,6 +9992,7 @@ private:
 		}
 
 		this->receive_requests.clear();
+}
 
 		return success;
 	}
@@ -10001,6 +10007,8 @@ private:
 		int ret_val = -1;
 
 		// Collate all requests into one list, and wait for all in one go.
+#pragma omp single
+{
 		std::vector<MPI_Request> allRequests;
 		for( const auto& process : this->send_requests) {
 			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
@@ -10022,6 +10030,7 @@ private:
 		}
 
 		this->send_requests.clear();
+}
 
 		return success;
 	}
