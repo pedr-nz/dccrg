@@ -9563,12 +9563,6 @@ private:
 		const std::unordered_map<int, std::vector<std::pair<uint64_t, int>>>& receive_item,
 		const int neighborhood_id
 	) {
-		for(int i=0; i<32; ++i) {
-			this->receive_requests[i].resize(32);
-			for(auto& j:this->receive_requests[i])
-				j=0;
-		}
-
 		for(const auto& sender : receive_item) {
 			const int sending_process = sender.first;
 			const size_t number_of_receives = sender.second.size();
@@ -9587,7 +9581,6 @@ private:
 			int ret_val = -1;
 
 			if (this->send_single_cells) {
-
 				for(const auto& item : sender.second) {
 					const uint64_t cell = item.first;
 
@@ -9777,12 +9770,6 @@ private:
 	) {
 		int ret_val = -1;
 
-		for(int i=0; i<32; ++i) {
-			this->send_requests[i].resize(32);
-			for(auto& j:this->send_requests[i])
-				j=0;
-		}
-
 		for(const auto& receiver : send_item) {
 			const int receiving_process = receiver.first;
 			const size_t number_of_sends = receiver.second.size();
@@ -9798,7 +9785,6 @@ private:
 			#endif
 
 			if (this->send_single_cells) {
-
 				for(const auto& item : receiver.second) {
 					const uint64_t cell = item.first;
 
@@ -9978,11 +9964,13 @@ private:
 
 		// Collate all requests into one list, and wait for all in one go.
 		std::vector<MPI_Request> allRequests;
-		for( const auto& process : this->receive_requests) {
+		for( auto& process : this->receive_requests) {
 			//allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			for(const auto& i:process.second) {
-				if(i!=0)
+			for(auto& i:process.second) {
+				if(i!=0) {
 					allRequests.push_back(i);
+					i=0;
+				}
 			}
 		}
 		std::vector<MPI_Status> statuses;
@@ -10000,7 +9988,7 @@ private:
 			}
 		}
 
-		this->receive_requests.clear();
+		//this->receive_requests.clear();
 
 		return success;
 	}
@@ -10016,11 +10004,13 @@ private:
 
 		// Collate all requests into one list, and wait for all in one go.
 		std::vector<MPI_Request> allRequests;
-		for( const auto& process : this->send_requests) {
+		for( auto& process : this->send_requests) {
 			//allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			for(const auto& i:process.second) {
-				if(i!=0)
+			for(auto& i:process.second) {
+				if(i!=0) {
 					allRequests.push_back(i);
+					i=0;
+				}
 			}
 		}
 		std::vector<MPI_Status> statuses;
@@ -10039,7 +10029,7 @@ private:
 			}
 		}
 
-		this->send_requests.clear();
+		//this->send_requests.clear();
 
 		return success;
 	}
