@@ -9581,6 +9581,7 @@ private:
 			int ret_val = -1;
 
 			if (this->send_single_cells) {
+
 				for(const auto& item : sender.second) {
 					const uint64_t cell = item.first;
 
@@ -9770,6 +9771,7 @@ private:
 	) {
 		int ret_val = -1;
 
+
 		for(const auto& receiver : send_item) {
 			const int receiving_process = receiver.first;
 			const size_t number_of_sends = receiver.second.size();
@@ -9785,6 +9787,7 @@ private:
 			#endif
 
 			if (this->send_single_cells) {
+
 				for(const auto& item : receiver.second) {
 					const uint64_t cell = item.first;
 
@@ -9952,6 +9955,7 @@ private:
 		return true;
 	}
 
+
 	/*!
 	Waits for the receives of user data transfers between processes to complete.
 
@@ -9963,15 +9967,14 @@ private:
 		int ret_val = -1;
 
 		// Collate all requests into one list, and wait for all in one go.
+#pragma omp single
+{
 		std::vector<MPI_Request> allRequests;
-		for( auto& process : this->receive_requests) {
+		for( const auto& process : this->receive_requests) {
 			//allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			for(auto& i:process.second) {
-				if(i!=0) {
-					allRequests.push_back(i);
-					i=0;
-				}
-			}
+			if(this==nullptr) std::abort();
+			for (const auto & i:process.second)
+				allRequests.push_back(i);
 		}
 		std::vector<MPI_Status> statuses;
 		statuses.resize(allRequests.size());
@@ -9988,7 +9991,8 @@ private:
 			}
 		}
 
-		//this->receive_requests.clear();
+		this->receive_requests.clear();
+}
 
 		return success;
 	}
@@ -10003,10 +10007,11 @@ private:
 		int ret_val = -1;
 
 		// Collate all requests into one list, and wait for all in one go.
+#pragma omp single
+{
 		std::vector<MPI_Request> allRequests;
-		for( auto& process : this->send_requests) {
+		for( const auto& process : this->send_requests) {
 			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			process.second.clear();
 		}
 		std::vector<MPI_Status> statuses;
 		statuses.resize(allRequests.size());
@@ -10025,6 +10030,7 @@ private:
 		}
 
 		this->send_requests.clear();
+}
 
 		return success;
 	}
