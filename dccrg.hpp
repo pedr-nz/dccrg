@@ -10005,13 +10005,8 @@ private:
 		// Collate all requests into one list, and wait for all in one go.
 		std::vector<MPI_Request> allRequests;
 		for( auto& process : this->send_requests) {
-			//allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			for(auto& i:process.second) {
-				if(i!=0) {
-					allRequests.push_back(i);
-					i=0;
-				}
-			}
+			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
+			process.second.clear();
 		}
 		std::vector<MPI_Status> statuses;
 		statuses.resize(allRequests.size());
@@ -10029,7 +10024,7 @@ private:
 			}
 		}
 
-		//this->send_requests.clear();
+		this->send_requests.clear();
 
 		return success;
 	}
