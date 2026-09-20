@@ -9971,10 +9971,7 @@ private:
 {
 		std::vector<MPI_Request> allRequests;
 		for( const auto& process : this->receive_requests) {
-			//allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			if(this==nullptr) std::abort();
-			for (const auto & i:process.second)
-				allRequests.push_back(i);
+			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
 		}
 		std::vector<MPI_Status> statuses;
 		statuses.resize(allRequests.size());
