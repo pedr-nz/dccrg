@@ -9967,7 +9967,7 @@ private:
 		int ret_val = -1;
 
 		// Collate all requests into one list, and wait for all in one go.
-#pragma omp single
+#pragma omp critical
 {
 		std::vector<MPI_Request> allRequests;
 		for( const auto& process : this->receive_requests) {
@@ -10004,7 +10004,7 @@ private:
 		int ret_val = -1;
 
 		// Collate all requests into one list, and wait for all in one go.
-#pragma omp single
+#pragma omp critical
 {
 		std::vector<MPI_Request> allRequests;
 		for( const auto& process : this->send_requests) {
