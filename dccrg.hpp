@@ -9968,29 +9968,27 @@ private:
 
 		// Collate all requests into one list, and wait for all in one go.
 		std::vector<MPI_Request> allRequests;
-		if(!this->receive_requests.empty()) {
-			for( const auto& process : this->receive_requests) {
-				allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			}
-			if(!allRequests.empty()) {
-				std::vector<MPI_Status> statuses;
-				statuses.resize(allRequests.size());
-				ret_val = MPI_Waitall(allRequests.size(), allRequests.data(), statuses.data());
-				if (ret_val != MPI_SUCCESS) {
-					for (const auto& status: statuses) {
-						if (status.MPI_ERROR != MPI_SUCCESS) {
-							success = false;
-							std::cerr << __FILE__ << ":" << __LINE__
-								<< " MPI receive failed from process " << status.MPI_SOURCE
-								<< " with tag " << status.MPI_TAG
-								<< std::endl;
-						}
+		for( const auto& process : this->receive_requests) {
+			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
+		}
+		if(!allRequests.empty()) {
+			std::vector<MPI_Status> statuses;
+			statuses.resize(allRequests.size());
+			ret_val = MPI_Waitall(allRequests.size(), allRequests.data(), statuses.data());
+			if (ret_val != MPI_SUCCESS) {
+				for (const auto& status: statuses) {
+					if (status.MPI_ERROR != MPI_SUCCESS) {
+						success = false;
+						std::cerr << __FILE__ << ":" << __LINE__
+							<< " MPI receive failed from process " << status.MPI_SOURCE
+							<< " with tag " << status.MPI_TAG
+							<< std::endl;
 					}
 				}
 			}
-
-			this->receive_requests.clear();
 		}
+
+		this->receive_requests.clear();
 
 		return success;
 	}
@@ -10006,30 +10004,28 @@ private:
 
 		// Collate all requests into one list, and wait for all in one go.
 		std::vector<MPI_Request> allRequests;
-		if(!this->send_requests.empty()) {
-			for( const auto& process : this->send_requests) {
-				allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
-			}
-			if(!allRequests.empty()) {
-				std::vector<MPI_Status> statuses;
-				statuses.resize(allRequests.size());
-				ret_val = MPI_Waitall(allRequests.size(), allRequests.data(), statuses.data());
+		for( const auto& process : this->send_requests) {
+			allRequests.insert(allRequests.end(), process.second.begin(), process.second.end());
+		}
+		if(!allRequests.empty()) {
+			std::vector<MPI_Status> statuses;
+			statuses.resize(allRequests.size());
+			ret_val = MPI_Waitall(allRequests.size(), allRequests.data(), statuses.data());
 
-				if (ret_val != MPI_SUCCESS) {
-					for (const auto& status: statuses) {
-						if (status.MPI_ERROR != MPI_SUCCESS) {
-							std::cerr << __FILE__ << ":" << __LINE__
-								<< " MPI receive failed from process " << status.MPI_SOURCE
-								<< " with tag " << status.MPI_TAG
-								<< std::endl;
-							success = false;
-						}
+			if (ret_val != MPI_SUCCESS) {
+				for (const auto& status: statuses) {
+					if (status.MPI_ERROR != MPI_SUCCESS) {
+						std::cerr << __FILE__ << ":" << __LINE__
+							<< " MPI receive failed from process " << status.MPI_SOURCE
+							<< " with tag " << status.MPI_TAG
+							<< std::endl;
+						success = false;
 					}
 				}
 			}
-
-			this->send_requests.clear();
 		}
+
+		this->send_requests.clear();
 
 		return success;
 	}
